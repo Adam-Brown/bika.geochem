@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="bika.bbk">
+
+    <include package="archetypes.schemaextender" />
+
+    <adapter name='bika.geochem.arextender' factory=".analysisrequest.AnalysisRequestSchemaExtender" />
+    <adapter name='bika.geochem.armodifier' factory=".analysisrequest.AnalysisRequestSchemaModifier" />
+    <adapter name='bika.geochem.sampleextender' factory=".sample.SampleSchemaExtender" />
+    <adapter name='bika.geochem.samplemodifier' factory=".sample.SampleSchemaModifier" />
+
+</configure>

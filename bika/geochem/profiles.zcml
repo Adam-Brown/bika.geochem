@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="bika.geochem">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Bika Geochemistry"
+      directory="profiles/default"
+      description='Bika LIMS extension for Geochemistry'
+      provides="Products.GenericSetup.interfaces.EXTENSION"/>
+
+  <genericsetup:importStep
+      name="bika.geochem.various"
+      title="bika geochem: miscellaneous import steps"
+      description="bika.geochem python setup things"
+      handler="bika.geochem.setuphandlers.setupVarious">
+    <depends name="content" />
+  </genericsetup:importStep>
+
+</configure>
