@@ -33,6 +33,7 @@ setup(name='bika.geochem',
           'setuptools',
           'archetypes.schemaextender',
           'bika.lims',
+          'SESAR-Web-Services-Library',
       ],
       extras_require={
           'test': [

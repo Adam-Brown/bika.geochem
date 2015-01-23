@@ -9,18 +9,15 @@ from zope.interface import implements
 
 
 class SampleNameField(ExtStringField):
-
     def set(self, instance, value):
         sample = instance.getSample()
-        if sample and value:
-            sample.setSampleName(value)
-        instance.Schema()['SampleName'].set(instance, value)
+        if sample:
+            return sample.Schema()['SampleName'].set(sample, value)
 
     def get(self, instance):
         sample = instance.getSample()
         if sample:
-            return sample.getSampleName()
-        return instance.Schema().getField('SampleName').get(instance)
+            return sample.Schema()['SampleName'].get(sample)
 
 
 class AnalysisRequestSchemaExtender(object):
@@ -46,7 +43,7 @@ class AnalysisRequestSchemaExtender(object):
                     'add': 'edit',
                     'secondary': 'disabled',
                     'header_table': 'visible',
-                    'sample_registered': {'view': 'visible', 'edit': 'visible'},
+                    'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
                     'to_be_sampled': {'view': 'visible', 'edit': 'invisible'},
                     'sampled': {'view': 'visible', 'edit': 'invisible'},
                     'to_be_preserved': {'view': 'visible', 'edit': 'invisible'},
@@ -57,25 +54,26 @@ class AnalysisRequestSchemaExtender(object):
                     'to_be_verified': {'view': 'visible', 'edit': 'invisible'},
                     'verified': {'view': 'visible', 'edit': 'invisible'},
                     'published': {'view': 'visible', 'edit': 'invisible'},
-                    'invalid': {'view': 'visible', 'edit': 'invisible'},
-                },
-            ),
-        ),
+                    'invalid': {'view': 'visible', 'edit': 'invisible'}
+                }
+            )
+        )
     ]
 
 
-def __init__(self, context):
-    self.context = context
+    def __init__(self, context):
+        self.context = context
 
 
-def getOrder(self, schematas):
-    pos = schematas['default'].index('SampleType')
-    schematas['default'].insert(pos, 'SampleName')
-    return schematas
+    def getOrder(self, schematas):
+        default = schematas['default']
+        default.insert(default.index('SampleType'), 'SampleName')
+        schematas['default'] = default
+        return schematas
 
 
-def getFields(self):
-    return self.fields
+    def getFields(self):
+        return self.fields
 
 
 class AnalysisRequestSchemaModifier(object):

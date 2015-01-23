@@ -2,27 +2,19 @@ from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
 from bika.lims import bikaMessageFactory as _
 from bika.lims.fields import *
-from bika.lims.interfaces import IAnalysisRequest
+from bika.lims.interfaces import ISample
 from Products.CMFCore import permissions
 from zope.component import adapts
 from zope.interface import implements
 
 
-class SampleNameField(ExtStringField):
-    def set(self, instance, value):
-        """ Set the field on Analysis Requests.
-        """
-        for ar in instance.getAnalysisRequests():
-            ar.Schema()['SampleName'].set(ar, value)
-        instance.Schema()['SampleName'].set(instance, value)
-
-
 class SampleSchemaExtender(object):
-    adapts(IAnalysisRequest)
+    adapts(ISample)
     implements(IOrderableSchemaExtender)
 
     fields = [
-        SampleNameField(
+        ExtStringField(
+            "SampleName",
             searchable=True,
             mode="rw",
             read_permission=permissions.View,
@@ -53,8 +45,9 @@ class SampleSchemaExtender(object):
         self.context = context
 
     def getOrder(self, schematas):
-        pos = schematas['default'].index('SampleType')
-        schematas['default'].insert(pos, 'SampleName')
+        default = schematas['default']
+        default.insert(default.index('SampleType'), 'SampleName')
+        schematas['default'] = default
         return schematas
 
     def getFields(self):
@@ -62,7 +55,7 @@ class SampleSchemaExtender(object):
 
 
 class SampleSchemaModifier(object):
-    adapts(IAnalysisRequest)
+    adapts(ISample)
     implements(ISchemaModifier)
 
     def __init__(self, context):

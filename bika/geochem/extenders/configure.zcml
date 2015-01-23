@@ -9,9 +9,11 @@
 
     <include package="archetypes.schemaextender" />
 
-    <adapter name='bika.geochem.arextender' factory=".analysisrequest.AnalysisRequestSchemaExtender" />
-    <adapter name='bika.geochem.armodifier' factory=".analysisrequest.AnalysisRequestSchemaModifier" />
-    <adapter name='bika.geochem.sampleextender' factory=".sample.SampleSchemaExtender" />
-    <adapter name='bika.geochem.samplemodifier' factory=".sample.SampleSchemaModifier" />
+    <adapter name='bika.geochem.analysisrequest.extender' factory=".analysisrequest.AnalysisRequestSchemaExtender" />
+    <adapter name='bika.geochem.analysisrequest.modifier' factory=".analysisrequest.AnalysisRequestSchemaModifier" />
+    <adapter name='bika.geochem.sample.extender' factory=".sample.SampleSchemaExtender" />
+    <adapter name='bika.geochem.sample.modifier' factory=".sample.SampleSchemaModifier" />
+
+    <adapter name='bika.geochem.bikasetup.extender' factory=".bikasetup.BikaSetupExtender" />
 
 </configure>
