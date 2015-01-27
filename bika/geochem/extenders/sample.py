@@ -25,7 +25,6 @@ class SampleSchemaExtender(object):
                     'edit': 'invisible',
                     'view': 'visible',
                     'header_table': 'visible',
-                    'id_server': 'visible',  # Send this value to the ID server.
                     'sample_registered': {'view': 'visible',
                                           'edit': 'invisible'},
                     'to_be_sampled': {'view': 'visible', 'edit': 'invisible'},
