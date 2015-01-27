@@ -8,6 +8,18 @@ from zope.component import adapts
 from zope.interface import implements
 
 
+class IGSNField(ExtStringField):
+    def set(self, instance, value):
+        sample = instance.getSample()
+        if sample:
+            return sample.Schema()['IGSN'].set(sample, value)
+
+    def get(self, instance):
+        sample = instance.getSample()
+        if sample:
+            return sample.Schema()['IGSN'].get(sample)
+
+
 class SampleNameField(ExtStringField):
     def set(self, instance, value):
         sample = instance.getSample()
@@ -25,9 +37,41 @@ class AnalysisRequestSchemaExtender(object):
     implements(IOrderableSchemaExtender)
 
     fields = [
+        IGSNField(
+            'IGSN',
+            required=0,
+            searchable=True,
+            mode="rw",
+            read_permission=permissions.View,
+            write_permission=permissions.ModifyPortalContent,
+            widget=StringWidget(
+                label=_('IGSN'),
+                size=20,
+                render_own_label=True,
+                visible={
+                    'edit': 'visible',
+                    'view': 'visible',
+                    'add': 'edit',
+                    'secondary': 'disabled',
+                    'header_table': 'visible',
+                    'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
+                    'to_be_sampled': {'view': 'visible', 'edit': 'invisible'},
+                    'sampled': {'view': 'visible', 'edit': 'invisible'},
+                    'to_be_preserved': {'view': 'visible', 'edit': 'invisible'},
+                    'sample_due': {'view': 'visible', 'edit': 'invisible'},
+                    'sample_prep': {'view': 'visible', 'edit': 'invisible'},
+                    'sample_received': {'view': 'visible', 'edit': 'invisible'},
+                    'attachment_due': {'view': 'visible', 'edit': 'invisible'},
+                    'to_be_verified': {'view': 'visible', 'edit': 'invisible'},
+                    'verified': {'view': 'visible', 'edit': 'invisible'},
+                    'published': {'view': 'visible', 'edit': 'invisible'},
+                    'invalid': {'view': 'visible', 'edit': 'invisible'}
+                }
+            )
+        ),
+
         SampleNameField(
             'SampleName',
-            # ADAM: Copied from Client Sample Id, added required=1
             required=1,
             searchable=True,
             mode="rw",
@@ -68,6 +112,7 @@ class AnalysisRequestSchemaExtender(object):
     def getOrder(self, schematas):
         default = schematas['default']
         default.insert(default.index('SampleType'), 'SampleName')
+        default.insert(default.index('SampleType'), 'IGSN')
         schematas['default'] = default
         return schematas
 

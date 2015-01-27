@@ -14,6 +14,32 @@ class SampleSchemaExtender(object):
 
     fields = [
         ExtStringField(
+            "IGSN",
+            searchable=True,
+            mode="rw",
+            read_permission=permissions.View,
+            write_permission=permissions.ModifyPortalContent,
+            widget=StringWidget(
+                label=_("IGSN"),
+                visible={
+                    'edit': 'invisible',
+                    'view': 'visible',
+                    'header_table': 'visible',
+                    'sample_registered': {'view': 'visible',
+                                          'edit': 'invisible'},
+                    'to_be_sampled': {'view': 'visible', 'edit': 'invisible'},
+                    'sampled': {'view': 'visible', 'edit': 'invisible'},
+                    'to_be_preserved': {'view': 'visible', 'edit': 'invisible'},
+                    'sample_due': {'view': 'visible', 'edit': 'invisible'},
+                    'sample_received': {'view': 'visible', 'edit': 'invisible'},
+                    'expired': {'view': 'visible', 'edit': 'invisible'},
+                    'disposed': {'view': 'visible', 'edit': 'invisible'},
+                },
+                render_own_label=True,
+            )
+        ),
+
+        ExtStringField(
             "SampleName",
             searchable=True,
             mode="rw",
@@ -46,6 +72,7 @@ class SampleSchemaExtender(object):
     def getOrder(self, schematas):
         default = schematas['default']
         default.insert(default.index('SampleType'), 'SampleName')
+        default.insert(default.index('SampleType'), 'IGSN')
         schematas['default'] = default
         return schematas
 
