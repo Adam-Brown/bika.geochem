@@ -19,8 +19,16 @@ function GeochemAnalysisRequestAddView() {
         // ------------------------------------------------------------------------
         //  Entry-point method for AnalysisRequestAddView
         // ------------------------------------------------------------------------
+        columns = parseInt($('input#ar_count').val());
+        for (i = 0; i < columns; i++) {
+            var igsnInputField = $('input#IGSN-' + i);
 
-        doSomething()
+            // Remove the old validator:
+            igsnInputField.off('blur');
+
+            // Add the new lookup function:
+            igsnInputField.blur(igsnLookup);
+        }
 
     };
 
@@ -28,8 +36,8 @@ function GeochemAnalysisRequestAddView() {
     // PRIVATE FUNCTIONS
     // ------------------------------------------------------------------------
 
-    function doSomething(){
-        console.log("Beep.")
+    function igsnLookup(){
+        console.log('Value of ' + $(this).attr('id') + " = " + $(this).val())
     }
 
 }
