@@ -36,8 +36,12 @@ function GeochemAnalysisRequestAddView() {
     // PRIVATE FUNCTIONS
     // ------------------------------------------------------------------------
 
-    function igsnLookup(){
-        console.log('Value of ' + $(this).attr('id') + " = " + $(this).val())
+    function igsnLookup() {
+        $.ajax({
+				url: "/igsn-lookup/lookup.php?igsn_url=http://app.geosamples.org/sample/igsn/" + $(this).val(),
+				context: document.body
+			}).done(function(response) {
+			    console.log('Value of ' + $(this).attr('id') + " = " + response)
+			});
     }
-
 }
