@@ -4,7 +4,7 @@ from bika.lims.idserver import DefaultBikaIdServer
 from sesarwslib import categories as cat
 from sesarwslib.sample import Sample
 import sesarwslib.sesarwsclient as ws
-
+import zLOG
 
 class IGSNSampleIdServer(DefaultBikaIdServer):
     """This returns IGSN Ids for Samples.
@@ -22,11 +22,16 @@ class IGSNSampleIdServer(DefaultBikaIdServer):
             return super(IGSNSampleIdServer, self).generateUniqueId()
 
     def new_igsn_id(self):
-        import pdb, sys; pdb.Pdb(stdout=sys.__stdout__).set_trace()
         bs = self.context.bika_setup
         igsnusername = bs.Schema()['IGSNUsername'].get(bs)
         igsnpassword = bs.Schema()['IGSNPassword'].get(bs)
         igsnusercode = bs.Schema()['IGSNUsercode'].get(bs)
+        
+        zLOG.LOG(
+            'INFO',
+            0,
+            '',
+            "Attempting to open IGSN client with username: {0}, usercode: {1}.".format(igsnusername, igsnusercode))
 
         self.client = ws.IgsnClient(igsnusername, igsnpassword)
 
@@ -48,6 +53,4 @@ class IGSNSampleIdServer(DefaultBikaIdServer):
             name=sample_name,
             material=cat.Material.Rock)
 
-        igsn = self.client.register_sample(sample)
-
-        return igsn
+        return self.client.register_sample(sample)
