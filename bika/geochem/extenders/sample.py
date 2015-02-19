@@ -64,6 +64,58 @@ class SampleSchemaExtender(object):
                 render_own_label=True,
             )
         ),
+
+        ExtStringField(
+            "Latitude",
+            searchable=True,
+            mode="rw",
+            read_permission=permissions.View,
+            write_permission=permissions.ModifyPortalContent,
+            widget=StringWidget(
+                label=_("Latitude"),
+                visible={
+                    'edit': 'invisible',
+                    'view': 'visible',
+                    'header_table': 'visible',
+                    'sample_registered': {'view': 'visible',
+                                          'edit': 'invisible'},
+                    'to_be_sampled': {'view': 'visible', 'edit': 'invisible'},
+                    'sampled': {'view': 'visible', 'edit': 'invisible'},
+                    'to_be_preserved': {'view': 'visible', 'edit': 'invisible'},
+                    'sample_due': {'view': 'visible', 'edit': 'invisible'},
+                    'sample_received': {'view': 'visible', 'edit': 'invisible'},
+                    'expired': {'view': 'visible', 'edit': 'invisible'},
+                    'disposed': {'view': 'visible', 'edit': 'invisible'},
+                },
+                render_own_label=True,
+            )
+        ),
+
+        ExtStringField(
+            "Longitude",
+            searchable=True,
+            mode="rw",
+            read_permission=permissions.View,
+            write_permission=permissions.ModifyPortalContent,
+            widget=StringWidget(
+                label=_("Longitude"),
+                visible={
+                    'edit': 'invisible',
+                    'view': 'visible',
+                    'header_table': 'visible',
+                    'sample_registered': {'view': 'visible',
+                                          'edit': 'invisible'},
+                    'to_be_sampled': {'view': 'visible', 'edit': 'invisible'},
+                    'sampled': {'view': 'visible', 'edit': 'invisible'},
+                    'to_be_preserved': {'view': 'visible', 'edit': 'invisible'},
+                    'sample_due': {'view': 'visible', 'edit': 'invisible'},
+                    'sample_received': {'view': 'visible', 'edit': 'invisible'},
+                    'expired': {'view': 'visible', 'edit': 'invisible'},
+                    'disposed': {'view': 'visible', 'edit': 'invisible'},
+                },
+                render_own_label=True,
+            )
+        ),
     ]
 
     def __init__(self, context):
@@ -73,6 +125,9 @@ class SampleSchemaExtender(object):
         default = schematas['default']
         default.insert(default.index('SampleType'), 'SampleName')
         default.insert(default.index('SampleType'), 'IGSN')
+        default.insert(default.index('SampleType'), 'Latitude')
+        default.insert(default.index('SampleType'), 'Longitude')
+
         schematas['default'] = default
         return schematas
 

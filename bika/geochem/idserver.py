@@ -26,7 +26,7 @@ class IGSNSampleIdServer(DefaultBikaIdServer):
         igsnusername = bs.Schema()['IGSNUsername'].get(bs)
         igsnpassword = bs.Schema()['IGSNPassword'].get(bs)
         igsnusercode = bs.Schema()['IGSNUsercode'].get(bs)
-        
+
         zLOG.LOG(
             'INFO',
             0,
@@ -53,4 +53,14 @@ class IGSNSampleIdServer(DefaultBikaIdServer):
             name=sample_name,
             material=cat.Material.Rock)
 
-        return self.client.register_sample(sample)
+
+        response =self.client.register_sample(sample)
+        
+
+        zLOG.LOG(
+            'INFO',
+            0,
+            '',
+            "Response was: {0}.".format(response))
+
+        return response
